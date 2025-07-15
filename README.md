@@ -30,7 +30,7 @@ We have included sample benchmark datasets in [`./DataProcess/data_dpfunc/`](Dat
 
 1. Wang W, Shuai Y, Zeng M, et al. DPFunc: accurately predicting protein function via deep learning with domain-guided structure information[J]. Nature Communications, 2025, 16(1): 70.
 
-2. DPGOK: A deep learning-based method for protein function prediction by fusing GO knowledge with protein features. (Submitted, under review). GitHub: https://github.com/CSUBioGroup/DuGPro
+2. DPGOK: A deep learning-based method for protein function prediction by fusing GO knowledge with protein features. (Submitted, under review). GitHub: https://github.com/CSUBioGroup/DPGOK.
 
 **Note**: PDB structure files are not included due to size constraints. Please download and place the required PDB files in the corresponding folders as indicated in the tutorial.
 
