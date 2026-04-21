@@ -205,8 +205,50 @@ def process_protein(protein_name, graph_dir="graphs", esm_dir="esm"):
 ### `old_process_structure_Reese.py`
 
 ```python
-# (truncated for readability in README if desired)
-# You can keep full script here if needed
+import os
+import pickle
+import torch 
+
+def load_graph(graph_path):
+    """Load a graph pickle safely."""
+    with open(graph_path, "rb") as f:
+        g = pickle.load(f)
+   
+    if not hasattr(g, 'edata'):
+        g.edata = {}
+    if not hasattr(g, 'ndata'):
+        g.ndata = {}
+    return g
+
+def load_esm(esm_path):
+    """Load ESM embeddings safely."""
+    with open(esm_path, "rb") as f:
+        embeddings = pickle.load(f)
+    if embeddings is None or len(embeddings) == 0:
+        embeddings = []
+    return embeddings
+
+def process_protein(protein_name, graph_dir="graphs", esm_dir="esm"):
+    graph_path = os.path.join(graph_dir, protein_name + ".pkl")
+    esm_path = os.path.join(esm_dir, protein_name + ".pkl")
+
+    g = load_graph(graph_path)
+    esm_emb = load_esm(esm_path)
+
+    if "residue_feature" not in g.ndata:
+        if esm_emb and len(esm_emb[0]) == g.num_nodes():
+            g.ndata["residue_feature"] = esm_emb[0]
+        else:
+            feature_dim = esm_emb[0].shape[1] if esm_emb else 128
+            g.ndata["residue_feature"] = torch.zeros((g.num_nodes(), feature_dim))
+
+    return g, esm_emb
+
+if __name__ == "__main__":
+    protein_list = ["3h3b","3kdm","4mn8","8hnd","8ikw","8iqs","8jyr","rixi"]
+    for p in protein_list:
+        g, esm_emb = process_protein(p)
+        print(f"{p}: graph nodes={g.num_nodes()}, residue_feature shape={g.ndata['residue_feature'].shape}")
 ```
 
 ---
