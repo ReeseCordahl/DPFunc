@@ -202,7 +202,7 @@ def process_protein(protein_name, graph_dir="graphs", esm_dir="esm"):
 
 ## Patch Processing Script (DPFunc)
 
-### `patched_old_process_structure_Reese.py`
+### `old_process_structure_Reese.py`
 
 ```python
 import os
